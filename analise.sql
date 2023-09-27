@@ -62,3 +62,34 @@ FROM `basedosdados.br_tse_eleicoes.despesas_candidato`
 WHERE ano = 2018
   AND sigla_uf = 'SP'
   AND cpf_candidato = '94062897849';
+
+--Despesas do candidato João Dória nas eleições de 2018 
+SELECT ano,
+nome_candidato, 
+  MAX(valor_despesa) as max_valor_despesa,
+  MIN(valor_despesa) as min_valor_despesa,
+  ROUND(AVG(valor_despesa), 2) AS media_valor_despesa,
+  SUM(valor_despesa) as total_de_despesaFROM `basedosdados.br_tse_eleicoes.despesas_candidato`
+WHERE ano = 2018 AND sigla_uf = 'SP' AND cpf_candidato = '94062897849'
+group by nome_candidato, ano;
+
+--Despesas de todos os candidatos de SP nas eleições de 2018 do estado de SP
+SELECT  ano,
+nome_candidato,
+MAX(valor_despesa) as max_valor_despesa,
+ MIN(valor_despesa) as min_valor_despesa,
+ ROUND(AVG(valor_despesa), 2) AS media_valor_despesa,
+ SUM(valor_despesa) as total_de_despesaFROM `basedosdados.br_tse_eleicoes.despesas_candidato`
+WHERE ano = 2018 AND sigla_uf = 'SP' and cargo = 'governador'
+group by nome_candidato, ano;
+
+--Despesas dos cargos de governadores do Brasil
+SELECT ano,
+cargo,
+sigla_uf,
+ MAX(valor_despesa) as max_valor_despesa,
+ MIN(valor_despesa) as min_valor_despesa,
+ ROUND(AVG(valor_despesa), 2) AS media_valor_despesa,
+ SUM(valor_despesa) as total_de_despesaFROM `basedosdados.br_tse_eleicoes.despesas_candidato`
+ WHERE ano = 2018 and cargo = 'governador'
+group by cargo, ano, sigla_uf;
